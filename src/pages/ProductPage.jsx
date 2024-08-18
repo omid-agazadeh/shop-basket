@@ -4,31 +4,36 @@ import { useHook } from '../context/ProductContext';
 import Card from '../components/Card';
 import { CiSearch } from 'react-icons/ci';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { categoryedHandler, searchedHandler } from '../helper/helper';
+import { categoryedHandler, createQuaryObject, reloadHandler, searchedHandler } from '../helper/helper';
+import { useSearchParams } from 'react-router-dom';
 
 function ProductPage() {
    const product = useHook();
    const [displayed, setDisplayed] = useState([]);
    const [search, setSearch] = useState('');
-   const [quary, setQuary] = useState({ category: 'all' });
+   const [quary, setQuary] = useState({});
+   const [params, setParams] = useSearchParams();
 
    useEffect(() => {
       setDisplayed(product);
+      setQuary(reloadHandler(quary, params));
+      setSearch(quary.search);
    }, [product]);
    useEffect(() => {
       let finalProduct = searchedHandler(product, quary.search);
       finalProduct = categoryedHandler(finalProduct, quary.category);
       setDisplayed(finalProduct);
+      setParams(quary);
    }, [quary]);
 
    const categoryHandler = (event) => {
       if (event.target.tagName === 'LI') {
-         setQuary((quary) => ({ ...quary, category: event.target.innerText.toLowerCase() }));
+         setQuary((quary) => createQuaryObject(quary, { category: event.target.innerText.toLowerCase() }));
       } else return;
    };
 
    const searchHandler = () => {
-      setQuary((quary) => ({ ...quary, search }));
+      setQuary((quary) => createQuaryObject(quary, { search: search }));
    };
    console.log(quary);
 
