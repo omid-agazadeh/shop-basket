@@ -3,20 +3,23 @@ import ProductPage from './pages/ProductPage';
 import DetailPage from './pages/DetailPage';
 import CheckBoxPage from './pages/CheckBoxPage';
 import ErrorPage from './pages/404';
-import ContextPage from './context/ProductContext';
+import Layouts from './layout/Layouts';
+import ProductProvider from './context/ProductContext';
 
 function App() {
    return (
       <>
-         <ContextPage>
-            <Routes>
-               <Route path="/product" element={<ProductPage />} />
-               <Route path="/" element={<Navigate to="/product" replace />} />
-               <Route path="/product/id:" element={<DetailPage />} />
-               <Route path="/CheckBox" element={<CheckBoxPage />} />
-               <Route path="/*" element={<ErrorPage />} />
-            </Routes>
-         </ContextPage>
+         <ProductProvider>
+            <Layouts>
+               <Routes>
+                  <Route path="/product" element={<ProductPage />} />
+                  <Route path="/" element={<Navigate to="/product" replace />} />
+                  <Route path="/product/id:" element={<DetailPage />} />
+                  <Route path="/CheckBox" element={<CheckBoxPage />} />
+                  <Route path="/*" element={<ErrorPage />} />
+               </Routes>
+            </Layouts>
+         </ProductProvider>
       </>
    );
 }

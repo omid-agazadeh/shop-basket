@@ -12,24 +12,31 @@ const categoryedHandler = (product, quary) => {
    const categoryData = product.filter((data) => data.category === quary);
    return categoryData;
 };
-const createQuaryObject = (currentQuary, newQuarry) => {
-   if (newQuarry.search === '') {
-      const { search, ...rest } = currentQuary;
-      return rest;
+const createQuaryObject = (currentQuary, newQuarry, moz) => {
+   if (moz === 'search') {
+      if (newQuarry.search === '' || newQuarry.search === undefined) {
+         const { search, ...rest } = currentQuary;
+         return rest;
+      }
    }
-   if (newQuarry.category === 'all') {
-      const { category, ...rest } = currentQuary;
-      return rest;
+   if (moz === 'category') {
+      if (newQuarry.category === 'all') {
+         const { category, ...rest } = currentQuary;
+         return rest;
+      }
    }
    return { ...currentQuary, ...newQuarry };
 };
-const reloadHandler = (quary,params) => {
+const reloadHandler = (quary, params) => {
    const newQuary = { ...quary };
-   const moz = params.get('search');
-   const moz2 = params.get('category');
-   if (moz) quary.search = moz;
-   if (moz2) quary.category = moz2;
+   const search = params.get('search');
+   const category = params.get('category');
+   if (search) newQuary.search = search;
+   if (category) newQuary.category = category;
    return newQuary;
 };
+const sunProducts=(products)=>{
+   const itemsCounter=products.reduce() 
+}
 
 export { titleTripler, searchedHandler, categoryedHandler, createQuaryObject, reloadHandler };
