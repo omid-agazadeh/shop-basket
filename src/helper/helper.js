@@ -35,8 +35,14 @@ const reloadHandler = (quary, params) => {
    if (category) newQuary.category = category;
    return newQuary;
 };
-const sunProducts=(products)=>{
-   const itemsCounter=products.reduce() 
-}
+const sunProducts = (products) => {
+   const itemsCounter = products.reduce((acc, current) => {
+      acc + current.numer;
+   });
+   const total = products.reduce((acc, current) => {
+      acc + current.price * current.numer;
+   });
+   return { itemsCounter, total };
+};
 
-export { titleTripler, searchedHandler, categoryedHandler, createQuaryObject, reloadHandler };
+export { titleTripler, searchedHandler, categoryedHandler, createQuaryObject, reloadHandler, sunProducts };
